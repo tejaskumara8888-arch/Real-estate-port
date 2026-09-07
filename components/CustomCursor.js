@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 /**
  * Site-wide custom cursor: a small signal-red dot with a lagging ring
@@ -8,18 +8,41 @@ import { useEffect, useRef } from "react";
  * (used on portfolio card frames) makes the ring swell and, for
  * data-cursor targets, show a short label ("VIEW").
  *
- * Only activates on devices with a real mouse (hover + fine pointer) —
- * touch devices keep their native behavior untouched.
+ * Only renders on devices with a real mouse (hover + fine pointer).
+ * On touch devices this component renders nothing at all — no stray
+ * dot/ring sitting in the corner of the screen — and the equivalent
+ * tap feedback is handled by the group-active: styles on each card
+ * (see PortfolioCard, Process, Services), unlocked by the touchstart
+ * listener below.
  */
 export default function CustomCursor() {
+  const [canHover, setCanHover] = useState(false);
   const dotRef = useRef(null);
   const ringRef = useRef(null);
   const labelRef = useRef(null);
 
+  // iOS Safari only honors the :active pseudo-class (what drives our
+  // tap feedback on touch devices) once a touchstart listener exists
+  // somewhere on the page. This permanent no-op listener unlocks that
+  // sitewide, on every device, so hover-style effects also fire on tap.
   useEffect(() => {
-    const canHover =
-      typeof window !== "undefined" &&
-      window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    const noop = () => {};
+    document.addEventListener("touchstart", noop, { passive: true });
+    return () => document.removeEventListener("touchstart", noop);
+  }, []);
+
+  // Detect (and keep watching, in case of e.g. a tablet with a mouse
+  // plugged/unplugged mid-session) whether this device has a real
+  // hoverable, precise pointer.
+  useEffect(() => {
+    const mq = window.matchMedia("(hover: hover) and (pointer: fine)");
+    setCanHover(mq.matches);
+    const onChange = (e) => setCanHover(e.matches);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
+
+  useEffect(() => {
     if (!canHover) return;
 
     const root = document.documentElement;
@@ -28,6 +51,7 @@ export default function CustomCursor() {
     const dot = dotRef.current;
     const ring = ringRef.current;
     const label = labelRef.current;
+    if (!dot || !ring || !label) return;
 
     let mx = window.innerWidth / 2;
     let my = window.innerHeight / 2;
@@ -104,7 +128,9 @@ export default function CustomCursor() {
       );
       root.removeAttribute("data-cursor-variant");
     };
-  }, []);
+  }, [canHover]);
+
+  if (!canHover) return null;
 
   return (
     <div className="cursor-layer" aria-hidden="true">

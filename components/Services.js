@@ -34,10 +34,10 @@ export default function Services({ items }) {
               return (
                 <div
                   key={service.id}
-                  className={`group flex flex-col rounded-xl p-7 border transition-all duration-300 ease-out hover:-translate-y-1.5 hover:shadow-[0_22px_50px_-22px_rgba(255,75,43,0.45)] ${
+                  className={`group flex flex-col rounded-xl p-7 border transition-all duration-300 ease-out hover:-translate-y-1.5 active:-translate-y-1.5 hover:shadow-[0_22px_50px_-22px_rgba(255,75,43,0.45)] active:shadow-[0_22px_50px_-22px_rgba(255,75,43,0.45)] ${
                     service.is_popular
-                      ? "border-signal bg-ink-card hover:border-signal-soft"
-                      : "border-line bg-ink-soft hover:border-signal/50"
+                      ? "border-signal bg-ink-card hover:border-signal-soft active:border-signal-soft"
+                      : "border-line bg-ink-soft hover:border-signal/50 active:border-signal/50"
                   }`}
                 >
                   {service.is_popular && (
@@ -45,7 +45,7 @@ export default function Services({ items }) {
                       MOST BOOKED
                     </span>
                   )}
-                  <h3 className="font-display font-bold text-xl text-paper transition-colors duration-300 group-hover:text-signal-soft">
+                  <h3 className="font-display font-bold text-xl text-paper transition-colors duration-300 group-hover:text-signal-soft group-active:text-signal-soft">
                     {service.name}
                   </h3>
                   {service.description && (
@@ -55,12 +55,12 @@ export default function Services({ items }) {
                   )}
 
                   {price && (
-                    <div className="mt-6 transition-transform duration-300 ease-out group-hover:translate-x-0.5">
+                    <div className="mt-6 transition-transform duration-300 ease-out group-hover:translate-x-0.5 group-active:translate-x-0.5">
                       <span className="text-xs text-slate-dim block">
                         {service.price_note || "Starting at"}
                       </span>
                       <span className="font-display font-bold text-3xl text-paper">
-                        ₹{price}
+                        ${price}
                       </span>
                     </div>
                   )}
@@ -69,7 +69,7 @@ export default function Services({ items }) {
                     <ul className="mt-6 space-y-2.5 flex-1">
                       {service.service_features.map((f) => (
                         <li
-                          key={f.feature}
+                          key={f.id}
                           className="text-sm text-slate flex gap-2"
                         >
                           <span className="text-signal">—</span>
@@ -81,10 +81,10 @@ export default function Services({ items }) {
 
                   <a
                     href="#contact"
-                    className={`mt-8 text-center rounded-full px-5 py-2.5 text-sm font-medium transition-all duration-300 ease-out hover:scale-[1.03] ${
+                    className={`mt-8 text-center rounded-full px-5 py-2.5 text-sm font-medium transition-all duration-300 ease-out hover:scale-[1.03] active:scale-[1.03] ${
                       service.is_popular
-                        ? "bg-signal text-ink hover:bg-signal-soft"
-                        : "border border-line text-paper hover:border-slate"
+                        ? "bg-signal text-ink hover:bg-signal-soft active:bg-signal-soft"
+                        : "border border-line text-paper hover:border-slate active:border-slate"
                     }`}
                   >
                     Get started

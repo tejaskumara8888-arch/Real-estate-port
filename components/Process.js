@@ -37,18 +37,18 @@ export default function Process() {
           {STEPS.map((step, i) => (
             <div
               key={step.time}
-              className="group relative pl-6 md:pl-0 transition-transform duration-300 ease-out hover:-translate-y-1"
+              className="group relative pl-6 md:pl-0 transition-transform duration-300 ease-out hover:-translate-y-1 active:-translate-y-1"
             >
               <div className="md:mb-5">
-                <span className="timecode text-xs text-slate-dim transition-colors duration-300 group-hover:text-signal">
+                <span className="timecode text-xs text-slate-dim transition-colors duration-300 group-hover:text-signal group-active:text-signal">
                   {step.time}
                 </span>
                 <div className="mt-2 h-px w-full bg-line relative">
-                  <span className="absolute inset-0 bg-signal origin-left scale-x-0 transition-transform duration-500 ease-out group-hover:scale-x-100" />
-                  <span className="absolute -top-[3px] left-0 w-1.5 h-1.5 rounded-full bg-signal z-10 transition-transform duration-300 ease-out group-hover:scale-[1.8] group-hover:shadow-[0_0_10px_2px_rgba(255,75,43,0.6)]" />
+                  <span className="absolute inset-0 bg-signal origin-left scale-x-0 transition-transform duration-500 ease-out group-hover:scale-x-100 group-active:scale-x-100" />
+                  <span className="absolute -top-[3px] left-0 w-1.5 h-1.5 rounded-full bg-signal z-10 transition-transform duration-300 ease-out group-hover:scale-[1.8] group-active:scale-[1.8] group-hover:shadow-[0_0_10px_2px_rgba(255,75,43,0.6)] group-active:shadow-[0_0_10px_2px_rgba(255,75,43,0.6)]" />
                 </div>
               </div>
-              <h3 className="font-display font-medium text-lg text-paper transition-colors duration-300 group-hover:text-signal-soft">
+              <h3 className="font-display font-medium text-lg text-paper transition-colors duration-300 group-hover:text-signal-soft group-active:text-signal-soft">
                 {step.title}
               </h3>
               <p className="mt-2 text-sm text-slate leading-relaxed">

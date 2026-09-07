@@ -89,6 +89,15 @@ body {
   z-index: 9999;
 }
 
+/* Belt-and-suspenders: the component already skips rendering this on
+   touch devices, but this guarantees it never paints even for a single
+   frame before JS settles. */
+@media (hover: none), (pointer: coarse) {
+  .cursor-layer {
+    display: none;
+  }
+}
+
 .cursor-dot {
   position: fixed;
   top: 0;
