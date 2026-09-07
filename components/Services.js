@@ -60,7 +60,7 @@ export default function Services({ items }) {
                         {service.price_note || "Starting at"}
                       </span>
                       <span className="font-display font-bold text-3xl text-paper">
-                        ${price}
+                        ₹{price}
                       </span>
                     </div>
                   )}
